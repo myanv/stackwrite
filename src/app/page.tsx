@@ -8,7 +8,9 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="text-[20px]">
-        <Button>hello</Button>
+        
+        <Button>Standard button UI</Button>
+        <Button variant='ghost'>Ghost variant of the button UI</Button>
       </div>
     </main>
   );

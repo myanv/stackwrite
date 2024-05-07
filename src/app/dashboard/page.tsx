@@ -1,3 +1,5 @@
+'use client' // convert from server -> client component for interactivity
+
 import Button from "@/components/ui/Button";
 import { FC } from "react";
 
