@@ -7,6 +7,7 @@ import { Icon, Icons } from '@/components/Icons'
 import Image from 'next/image'
 import SignOutButton from '@/components/SignOutButton'
 import CollabRequestSidebarOption from '@/components/CollabRequestSidebarOption'
+import { fetchRedis } from '@/helpers/redis'
 
 interface LayoutProps {
     children: ReactNode
@@ -34,6 +35,13 @@ const Layout = async ({ children }: LayoutProps) => {
     
     if (!session) notFound()
 
+    const unseenRequestCount = (
+        await fetchRedis(
+            'smembers', 
+            `user:${session.user.id}:incoming_collab_requests`
+        ) as User[]
+    ).length
+    
     return (
         <div className='w-full flex h-screen'>
             <div className='flex h-full w-full max-w-xs grow-1 flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6'>
@@ -76,7 +84,10 @@ const Layout = async ({ children }: LayoutProps) => {
                             </li>
 
                             <li>
-                                <CollabRequestSidebarOption />
+                                <CollabRequestSidebarOption 
+                                    sessionId={session.user.id} 
+                                    initialUnseenRequestCount={unseenRequestCount}
+                                />
                             </li>
 
                             <li className='-mx-6 mt-auto mb-4 flex items-center'>
