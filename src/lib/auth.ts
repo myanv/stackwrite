@@ -60,6 +60,7 @@ export const authOptions: NextAuthOptions = {
             return session
         },
         redirect() {
+            // Redirects to the dashboard once OAuth is successful
             return '/dashboard'
         }
     }
