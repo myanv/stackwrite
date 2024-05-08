@@ -7,9 +7,7 @@ const page = async ({}) => {
     
     const session = await getServerSession(authOptions)
 
-    // <pre>{JSON.stringify(session)}</pre> to see the JSON string
-
-    return 
+    return <pre>{JSON.stringify(session)}</pre>
 }
 
 export default page

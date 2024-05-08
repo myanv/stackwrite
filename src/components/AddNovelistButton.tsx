@@ -57,7 +57,7 @@ const AddNovelistButton: FC<AddNovelistButton> = ({}) => {
         addNovelist(data.email)
     }
 
-    return <form className="max-w-sm">
+    return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm">
         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
             Add a novelist by E-mail
         </label>

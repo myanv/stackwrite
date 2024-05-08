@@ -11,18 +11,9 @@ export async function POST(req: Request) {
 
         const {email: emailToAdd} = addNovelistValidator.parse(body.email)
 
+        const idToAdd = await fetchRedis('get', `user:email:${emailToAdd}`) as string
+
         // Fetch data from the Upstash Redis DB, using REST token authorization in headers
-        const RESTResponse = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/user:email${emailToAdd}`, {
-            headers: {
-                Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`
-            },
-            cache: 'no-store',
-        })
-
-        const data = await RESTResponse.json() as {result: string}
-
-        const idToAdd = data.result
-
         // If the ID to add doesn't exist
         if (!idToAdd) {
             return new Response(`This person does not exist.`, {status: 400})
