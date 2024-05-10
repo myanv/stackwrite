@@ -15,6 +15,7 @@ interface StoryFragment {
     senderId: string
     receiverId: string
     text: string
+    order: number
 }
 
 interface FriendRequest {

@@ -4,3 +4,7 @@ import { z } from 'zod'
 export const addNovelistValidator = z.object({
     email: z.string().email()
 })
+
+export const addStoryValidator = z.object({
+    title: z.string()
+})

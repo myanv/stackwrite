@@ -8,6 +8,7 @@ import Image from 'next/image'
 import SignOutButton from '@/components/SignOutButton'
 import CollabRequestSidebarOption from '@/components/CollabRequestSidebarOption'
 import { fetchRedis } from '@/helpers/redis'
+import { getStoriesByUserId } from '@/helpers/get-stories-by-user-id'
 
 interface LayoutProps {
     children: ReactNode
@@ -23,10 +24,16 @@ interface SidebarOption {
 const sidebarOptions: SidebarOption[] = [
     {
         id: 1,
-        name: 'Add a collaborator',
-        href: '/dashboard/add',
+        name: 'Add a new collaborator',
+        href: '/dashboard/add/collaborator',
         Icon: 'UserPlus'
     },
+    {
+        id: 2,
+        name: 'Add a new story',
+        href: '/dashboard/add/story',
+        Icon: 'NotebookPen'
+    }
 ]
 
 const Layout = async ({ children }: LayoutProps) => {
@@ -34,6 +41,8 @@ const Layout = async ({ children }: LayoutProps) => {
     const session = await getServerSession(authOptions)
     
     if (!session) notFound()
+
+    const stories = await getStoriesByUserId(session.user.id) 
 
     const unseenRequestCount = (
         await fetchRedis(

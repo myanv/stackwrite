@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { FC } from "react"
 import { db } from "@/lib/db"
 import { fetchRedis } from "@/helpers/redis"
+import { fragmentArraySchema } from "@/lib/validations/fragment"
 
 interface StoryProps {
     params: {
@@ -20,7 +21,13 @@ async function getStory(storyId: string) {
             -1
         )
         
-        const dbStories = results.map((fragment) => JSON.parse(fragment) as StoryFragment)
+        const dbFragments = results.map((fragment) => JSON.parse(fragment) as StoryFragment)
+
+        const reversedDbFragments = dbFragments.reverse()
+
+        const fragments = fragmentArraySchema.parse(reversedDbFragments)
+
+        return fragments
     } catch (error) {
         notFound()
     }

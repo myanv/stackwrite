@@ -1,6 +1,6 @@
 import { fetchRedis } from "@/helpers/redis"
 import { authOptions } from "@/lib/auth"
-import { addNovelistValidator } from "@/lib/validations/add-novelist"
+import { addNovelistValidator } from "@/lib/validations/add"
 import { getServerSession } from "next-auth"
 import { db } from "@/lib/db"
 import {ZodError, z} from 'zod'

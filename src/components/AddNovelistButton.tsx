@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import Button from "./ui/Button";
-import { addNovelistValidator } from "@/lib/validations/add-novelist";
+import { addNovelistValidator } from "@/lib/validations/add";
 import axios, { AxiosError } from "axios";
 import z from 'zod';
 import { useForm } from "react-hook-form";
