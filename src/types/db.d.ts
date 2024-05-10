@@ -3,3 +3,22 @@ interface User {
     email: string
     id: string
 }
+
+interface Story {
+    id: string
+    fragments: StoryFragment[]
+    text: string
+}
+
+interface StoryFragment {
+    id: string
+    senderId: string
+    receiverId: string
+    text: string
+}
+
+interface FriendRequest {
+    id: string
+    senderId: string
+    receiverId: string
+}
