@@ -18,10 +18,12 @@ const page: FC = async () => {
     // Awaits all incoming promises at the same time
     const incomingCollabRequests = await Promise.all(
         incomingSenderId.map(async (senderId) => {
-            const sender = await fetchRedis('get', `user:${senderId}`) as User
+            const sender = await fetchRedis('get', `user:${senderId}`) as string
+            const senderParsed = JSON.parse(sender) as User
             return {
                 senderId,
-                senderEmail: sender.email,
+                senderName: senderParsed.name,
+                senderEmail: senderParsed.email,
             }
         })
     )
@@ -30,7 +32,9 @@ const page: FC = async () => {
         <main className="pt-8 pl-5">
             <h1 className="font-bold text-5xl mb-8">Add a novelist</h1>
             <div className="flex flex-col gap-4">
-                <CollabRequests incomingCollabRequests={incomingCollabRequests} sessionId={session.user.id}/>
+                <CollabRequests 
+                    incomingCollabRequests={incomingCollabRequests} 
+                    sessionId={session.user.id}/>
             </div>
         </main>
     )
