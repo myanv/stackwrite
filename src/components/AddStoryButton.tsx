@@ -7,7 +7,6 @@ import axios, { AxiosError } from "axios";
 import z from 'zod';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { error } from "console";
 
 interface AddStoryButton {}
 
@@ -29,17 +28,21 @@ const AddStoryButton: FC<AddStoryButton> = ({}) => {
 
     const addStory = async (
         title: string,
+        description: string
     ) => {
         try {
-            const validatedTitle = addStoryValidator.parse({ title })
-
+            // const validatedTitle = addStoryValidator.parse({ title })
+            // const validatedDescription = addStoryValidator.parse({ description })
             // Using Axios to send a POST request containing the validated email
+            console.log("he")
             await axios.post('/api/stories/add', {
-                title: validatedTitle,
+                title: title,
+                description: description
             })
 
             setShowSuccessState(true)
         } catch (error) {
+            console.log("zod")
             if (error instanceof z.ZodError) {
                 setError('title', { message: error.message })
                 return 
@@ -57,7 +60,12 @@ const AddStoryButton: FC<AddStoryButton> = ({}) => {
 
     // On submit, receives an object of type FormData as defined containing strictly an email
     const onSubmit = (data: FormData) => {
-        addStory(data.title)
+        console.log(data.title)
+        console.log(data.description)
+        addStory(
+            data.title,
+            data.description
+        )
     }
 
     const handleChange = (input: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -92,6 +100,7 @@ const AddStoryButton: FC<AddStoryButton> = ({}) => {
                             Add a description for your story
                         </label>
                         <input
+                        {...register('description')}
                         className="block w-full h-20 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         placeholder="Description"
                         />
