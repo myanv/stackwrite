@@ -11,6 +11,7 @@ export async function POST(req: Request) {
         // Get the title and the description - no need for validation since will be any string
         const {title: titleToAdd} = body.title
         const {description: descriptionToAdd} = body.description
+        const {collaborator: collaboratorToAdd} = body.collaborator
 
         // Finding out who's making the request from the session
         const session = await getServerSession(authOptions)
@@ -24,9 +25,12 @@ export async function POST(req: Request) {
         const storyId = uuidv4();
 
         db.hset(`user:${session.user.id}:stories:${storyId}`, {
-            "title": body.title,
-            "description": body.description,
-            "author": session.user.name,
+            id: storyId,
+            title: body.title,
+            description: body.description,
+            author: session.user.name,
+            collaborator: collaboratorToAdd,
+            fragments: [],
         })
         
         return new Response('OK')

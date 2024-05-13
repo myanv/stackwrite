@@ -6,8 +6,10 @@ interface User {
 
 interface Story {
     id: string
+    title: string
+    description: string
+    author: string
     fragments: StoryFragment[]
-    text: string
 }
 
 interface StoryFragment {

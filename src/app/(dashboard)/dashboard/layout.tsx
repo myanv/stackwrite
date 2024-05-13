@@ -9,6 +9,8 @@ import SignOutButton from '@/components/SignOutButton'
 import CollabRequestSidebarOption from '@/components/CollabRequestSidebarOption'
 import { fetchRedis } from '@/helpers/redis'
 import { getStoriesByUserId } from '@/helpers/get-stories-by-user-id'
+import SidebarStoryList from '@/components/SidebarStoryList'
+
 
 interface LayoutProps {
     children: ReactNode
@@ -58,14 +60,18 @@ const Layout = async ({ children }: LayoutProps) => {
                         <Icons.Logo className='h-8 w-auto text-indigo-600'></Icons.Logo>
                     </Link>
 
-                    <div className='text-sm font-semibold leading-6 text-gray-400'>
-                        Your stories
-                    </div>
+
+                    {stories.length > 0 ? (
+                        <div className='text-sm font-semibold leading-6 text-gray-400'>
+                            Your stories
+                        </div>
+                    ) : null }
 
                     <nav className='flex flex-1 flex-col'>
                         <ul role='list' className='flex flex-1 flex-col gap-y-7'>
                             <li>
-                                // stories
+                                <SidebarStoryList stories={stories}/>
+                            
                             </li>
                             <li>
                                 <div className='text-xs font-semibold leading-6 text-gray-400'>
@@ -89,15 +95,15 @@ const Layout = async ({ children }: LayoutProps) => {
                                             </li>
                                         )
                                     })}
+                                    <li>
+                                        <CollabRequestSidebarOption 
+                                            sessionId={session.user.id} 
+                                            initialUnseenRequestCount={unseenRequestCount}
+                                        />
+                                    </li>
                                 </ul>
                             </li>
 
-                            <li>
-                                <CollabRequestSidebarOption 
-                                    sessionId={session.user.id} 
-                                    initialUnseenRequestCount={unseenRequestCount}
-                                />
-                            </li>
 
                             <li className='-mx-6 mt-auto mb-4 flex items-center'>
                                 <div className='flex flex-1 items-center gap-x-4 px-6 ;py-3 text-sm font-semibold leading-6 text-gray-900'>
