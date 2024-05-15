@@ -11,7 +11,7 @@ interface SidebarStoryListProps {
 
 const SidebarStoryList: FC<SidebarStoryListProps> = ({stories}) => { 
 
-    return <ul role='list' className="max-h-[25rem] overflow-y-auto -mx-2 space-y-2">
+    return <ul role='list' className="max-h-[25rem] overflow-y-auto -mx-2 space-y-2 ml-1">
         {stories.map((story) => {
             return (
                 <li key={story.id}>

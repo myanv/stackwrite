@@ -1,9 +1,8 @@
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { addStoryValidator } from "@/lib/validations/add";
+import { nanoid } from "nanoid";
 import { getServerSession } from "next-auth"
-import { v4 as uuidv4 } from 'uuid';
 import { z } from "zod"
 
 export async function POST(req: Request) {
@@ -53,7 +52,7 @@ export async function POST(req: Request) {
         if (isCollaborator) {
 
             // Generate a random story ID with UUID
-            const storyId = uuidv4();
+            const storyId = nanoid()
 
             db.hset(`user:${session.user.id}:stories:${storyId}`, {
                 id: storyId,

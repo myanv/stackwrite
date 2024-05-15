@@ -4,7 +4,6 @@ import { FC, useRef, useState } from "react"
 import TextArea from 'react-textarea-autosize'
 import Button from "./ui/Button"
 import axios from "axios"
-import { resolve } from "path"
 import toast from "react-hot-toast"
 
 interface WritingInputProps {
@@ -20,15 +19,14 @@ const WritingInput: FC<WritingInputProps> = ({ storyId }) => {
         setIsLoading(true)
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000))
-
-            /* await axios.post('/api/story-fragment/send', {
+            await axios.post('/api/story-fragment/send', {
                 text: input,
-                storyId: storyId,
-            }) */
+                storyPath: storyId,
+            })
 
             // Clears text area after sending
             setInput("")
-            
+            textAreaRef.current?.focus()
 
         } catch (error) {
             toast.error("Something went wrong. Please try again later.")

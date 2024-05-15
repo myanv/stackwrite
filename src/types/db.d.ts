@@ -2,6 +2,7 @@ interface User {
     name: string
     email: string
     id: string
+    image: string
 }
 
 interface Story {
@@ -16,9 +17,8 @@ interface Story {
 interface StoryFragment {
     id: string
     senderId: string
-    receiverId: string
     text: string
-    timestamp: string
+    timestamp: number
 }
 
 interface FriendRequest {
