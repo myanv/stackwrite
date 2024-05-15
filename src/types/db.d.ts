@@ -9,6 +9,7 @@ interface Story {
     title: string
     description: string
     author: string
+    collaborator: string
     fragments: StoryFragment[]
 }
 
@@ -17,7 +18,7 @@ interface StoryFragment {
     senderId: string
     receiverId: string
     text: string
-    order: number
+    timestamp: string
 }
 
 interface FriendRequest {

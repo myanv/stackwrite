@@ -20,6 +20,7 @@ export const getStoriesByUserId = async (userId: string) => {
                 title: storyData.title,
                 author: storyData.author,
                 description: storyData.description,
+                collaborator: storyData.collaborator,
                 fragments: JSON.parse(storyData.fragments) as StoryFragment[],
             }
 

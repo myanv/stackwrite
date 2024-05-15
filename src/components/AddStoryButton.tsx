@@ -28,16 +28,20 @@ const AddStoryButton: FC<AddStoryButton> = ({}) => {
 
     const addStory = async (
         title: string,
-        description: string
+        description: string,
+        collaborator: string
     ) => {
         try {
-            // const validatedTitle = addStoryValidator.parse({ title })
-            // const validatedDescription = addStoryValidator.parse({ description })
+            const validatedCollaborator = addStoryValidator.parse({ 
+                title,
+                description,
+                collaborator });
             // Using Axios to send a POST request containing the validated email
-            console.log("he")
+
             await axios.post('/api/stories/add', {
                 title: title,
-                description: description
+                description: description,
+                collaborator: validatedCollaborator
             })
 
             setShowSuccessState(true)
@@ -60,11 +64,10 @@ const AddStoryButton: FC<AddStoryButton> = ({}) => {
 
     // On submit, receives an object of type FormData as defined containing strictly an email
     const onSubmit = (data: FormData) => {
-        console.log(data.title)
-        console.log(data.description)
         addStory(
             data.title,
-            data.description
+            data.description,
+            data.collaborator,
         )
     }
 
@@ -103,6 +106,14 @@ const AddStoryButton: FC<AddStoryButton> = ({}) => {
                         {...register('description')}
                         className="block w-full h-20 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         placeholder="Description"
+                        />
+                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                            Add an existing collaborator for your story
+                        </label>
+                        <input
+                        {...register('collaborator')}
+                        className="block w-full h-20 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        placeholder="Enter the email address of the collaborator"
                         />
                         <Button>Add</Button>
                     </>

@@ -1,5 +1,7 @@
+import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { addStoryValidator } from "@/lib/validations/add";
 import { getServerSession } from "next-auth"
 import { v4 as uuidv4 } from 'uuid';
 import { z } from "zod"
@@ -13,6 +15,19 @@ export async function POST(req: Request) {
         const {description: descriptionToAdd} = body.description
         const {collaborator: collaboratorToAdd} = body.collaborator
 
+        console.log(`user:email:${collaboratorToAdd}`)
+        
+        // Gets the collaborator's ID
+        const idToAdd = await fetchRedis('get', `user:email:${collaboratorToAdd}`) as string
+
+        console.log(idToAdd)
+
+        // Fetch data from the Upstash Redis DB, using REST token authorization in headers
+        // If the ID to add doesn't exist
+        if (!idToAdd) {
+            return new Response(`This person does not exist.`, {status: 400})
+        }
+
         // Finding out who's making the request from the session
         const session = await getServerSession(authOptions)
 
@@ -21,19 +36,38 @@ export async function POST(req: Request) {
             return new Response(`Unauthorized`, {status: 401})
         }
 
-        // Generate a random story ID with UUID
-        const storyId = uuidv4();
+        // If the user is requesting themselves
+        if (idToAdd === session.user.id) {
+            return new Response('You cannot collaborate with yourself!', {
+                status: 400,
+            })
+        }
 
-        db.hset(`user:${session.user.id}:stories:${storyId}`, {
-            id: storyId,
-            title: body.title,
-            description: body.description,
-            author: session.user.name,
-            collaborator: collaboratorToAdd,
-            fragments: [],
-        })
-        
-        return new Response('OK')
+        // Check if user is already a collaborator
+        const isCollaborator = (await fetchRedis(
+            'sismember', 
+            `user:${session.user.id}:collabs`,
+            idToAdd
+        )) as 0 | 1
+
+        if (isCollaborator) {
+
+            // Generate a random story ID with UUID
+            const storyId = uuidv4();
+
+            db.hset(`user:${session.user.id}:stories:${storyId}`, {
+                id: storyId,
+                title: body.title,
+                description: body.description,
+                author: session.user.id,
+                collaborator: idToAdd,
+                fragments: [],
+            })
+            
+            return new Response('OK')
+        } else {
+            return new Response('This person is not one of your collaborators!', { status: 401 })
+        }
 
     } catch (error) {
         if (error instanceof z.ZodError) {

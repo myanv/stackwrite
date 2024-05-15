@@ -1,4 +1,18 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) pair story-writing project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). The styling is done with TailwindCSS, and all data are stored in Redis via Upstash.
+
+Some of the libraries used at first glance:
+
+* NextAuth.js - for seamlessly implementing user authentication and signing in with Google
+
+* Zod - for response validation
+
+* Lucide - for high-quality icons
+
+* Shadcn - for some styling components
+
+* react-hot-toast - for client-side error displaying
+
+* ...and various other libraries and middleware such as class-variance-authority and @upstash/redis.
 
 ## Getting Started
 
