@@ -10,7 +10,6 @@ export async function POST(req: Request) {
         const { text, storyPath }: {text:string, storyPath: string} = await req.json()
         const session = await getServerSession(authOptions)
         
-        console.log(text, storyPath)
         if (!session) return new Response('Unauthorized', {status: 401})
         
         const [storyId, userId1, userId2] = storyPath.split('--')

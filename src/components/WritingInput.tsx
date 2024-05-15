@@ -7,10 +7,14 @@ import axios from "axios"
 import toast from "react-hot-toast"
 
 interface WritingInputProps {
+    initialFragments: StoryFragment[]
     storyId: string
 }
 
-const WritingInput: FC<WritingInputProps> = ({ storyId }) => {
+const WritingInput: FC<WritingInputProps> = ({ 
+    initialFragments,
+    storyId 
+}) => {
     const textAreaRef = useRef<HTMLTextAreaElement | null>(null)
     const [input, setInput] = useState<string>('')
     const [isLoading, setIsLoading] = useState<boolean>(false)

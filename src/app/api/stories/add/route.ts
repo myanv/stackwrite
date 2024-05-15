@@ -54,12 +54,21 @@ export async function POST(req: Request) {
             // Generate a random story ID with UUID
             const storyId = nanoid()
 
+            // Two way story connection
             db.hset(`user:${session.user.id}:stories:${storyId}`, {
                 id: storyId,
                 title: body.title,
                 description: body.description,
                 author: session.user.id,
                 collaborator: idToAdd,
+                fragments: [],
+            })
+            db.hset(`user:${idToAdd}:stories:${storyId}`, {
+                id: storyId,
+                title: body.title,
+                description: body.description,
+                author: idToAdd,
+                collaborator: session.user.id,
                 fragments: [],
             })
             

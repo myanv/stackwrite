@@ -84,7 +84,7 @@ const page = async ({ params }: StoryProps) => {
                 </div>
 
                 <StoryFragments initialFragments={initialFragments} sessionId={session.user.id}/>
-                <WritingInput storyId={storyId}/>
+                <WritingInput initialFragments={initialFragments} storyId={storyId}/>
             </div>
         </>
     )   
