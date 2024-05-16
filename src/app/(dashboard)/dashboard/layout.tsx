@@ -70,7 +70,7 @@ const Layout = async ({ children }: LayoutProps) => {
                     <nav className='flex flex-1 flex-col'>
                         <ul role='list' className='flex flex-1 flex-col gap-y-7'>
                             <li>
-                                <SidebarStoryList stories={stories}/>
+                                <SidebarStoryList stories={stories} sessionId={session.user.id}/>
                             
                             </li>
                             <li>

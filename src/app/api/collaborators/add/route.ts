@@ -4,6 +4,8 @@ import { addNovelistValidator } from "@/lib/validations/add"
 import { getServerSession } from "next-auth"
 import { db } from "@/lib/db"
 import {ZodError, z} from 'zod'
+import { pusherServer } from "@/lib/pusher"
+import { toPusherKey } from "@/lib/utils"
 
 export async function POST(req: Request) {
     try {
@@ -55,7 +57,18 @@ export async function POST(req: Request) {
             return new Response('Already added this collaborator!', {status: 400})
         }
 
-        // Valid request
+        // Valid request, send collab request
+        
+        pusherServer.trigger(
+            toPusherKey(`user:${idToAdd}:incoming_collab_requests`), 
+            'incoming_collab_requests',
+                {
+                    senderId: session.user.id,
+                    senderName: session.user.name,
+                    senderEmail: session.user.email,
+                }
+            )
+
         db.sadd(`user:${idToAdd}:incoming_collab_requests`, session.user.id)
 
         return new Response('OK')

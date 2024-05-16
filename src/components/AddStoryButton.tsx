@@ -25,7 +25,6 @@ const AddStoryButton: FC<AddStoryButton> = ({}) => {
         resolver: zodResolver(addStoryValidator)
     })
 
-
     const addStory = async (
         title: string,
         description: string,

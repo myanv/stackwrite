@@ -1,9 +1,11 @@
 "use client"
 
 import { Check, UserPlus, X } from "lucide-react"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation"
+import { pusherClient } from "@/lib/pusher"
+import { toPusherKey } from "@/lib/utils"
 
 interface CollabRequestsProps {
     incomingCollabRequests: IncomingCollabRequest[]
@@ -19,6 +21,30 @@ const CollabRequests: FC<CollabRequestsProps> = ({
     const [collabRequests, setCollabRequests] = useState<IncomingCollabRequest[]>(
         incomingCollabRequests
     )
+
+    useEffect(() => {
+        pusherClient.subscribe(toPusherKey(
+            `user:${sessionId}:incoming_collab_requests`
+        ))
+
+        const collabRequestHandler = ({senderId, senderName, senderEmail}: IncomingCollabRequest) => {    
+            setCollabRequests((prev) => [...prev, {
+                senderId,
+                senderName,
+                senderEmail
+            }])
+        }
+
+        // Whenever an event with incoming_collab_requests happens, bind to actual function on front-end
+        pusherClient.bind('incoming_collab_requests', collabRequestHandler)
+        
+        return () => {
+            pusherClient.unsubscribe(toPusherKey(
+                `user:${sessionId}:incoming_collab_requests`
+            ))
+            pusherClient.unbind('incoming_collab_requests', collabRequestHandler)
+        }
+    }, [])
 
     const acceptCollab = async (senderId: string) => {
         await axios.post('/api/collaborators/accept', {
