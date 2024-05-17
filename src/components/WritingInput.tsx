@@ -7,30 +7,42 @@ import axios from "axios"
 import toast from "react-hot-toast"
 
 interface WritingInputProps {
-    initialFragments: StoryFragment[]
-    storyId: string
+    storyPath: string
+    lastSenderId: string | null
+    currentUserId: string
 }
 
 const WritingInput: FC<WritingInputProps> = ({ 
-    initialFragments,
-    storyId 
+    storyPath,
+    lastSenderId,
+    currentUserId
 }) => {
     const textAreaRef = useRef<HTMLTextAreaElement | null>(null)
     const [input, setInput] = useState<string>('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
     
+    const isCurrentUserTurn = lastSenderId !== currentUserId
+
     const sendFragment = async () => {
+        if (lastSenderId === currentUserId) {
+            toast.error("Please wait for the other person to send their story fragment.")
+            return
+        }
+
+        lastSenderId = currentUserId
+
         setIsLoading(true)
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000))
             await axios.post('/api/story-fragment/send', {
                 text: input,
-                storyPath: storyId,
+                storyPath: storyPath,
             })
 
             // Clears text area after sending
             setInput("")
             textAreaRef.current?.focus()
+            
 
         } catch (error) {
             toast.error("Something went wrong. Please try again later.")
@@ -67,7 +79,14 @@ const WritingInput: FC<WritingInputProps> = ({
 
             <div className="absolute right-0 bottom-0 flex justify-between py-2 ol-3 pr-2">
                 <div className="flex-shrink-0">
-                    <Button onClick={sendFragment} isLoading={isLoading} type="submit">Post</Button>
+                    <Button 
+                        onClick={sendFragment} 
+                        isLoading={isLoading} 
+                        type="submit"
+                        disabled={!isCurrentUserTurn}
+                    >
+                            Post
+                    </Button>
                 </div>
             </div>
         </div>

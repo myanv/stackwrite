@@ -1,29 +1,64 @@
 "use client"
 
-import { cn } from "@/lib/utils"
+import { pusherClient } from "@/lib/pusher"
+import { cn, toPusherKey } from "@/lib/utils"
 import { error } from "console"
-import { FC, useRef, useState } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
 
 interface StoryFragmentProps {
     initialFragments: StoryFragment[]
-    sessionId: string
+    currentUserId: string
+    storyId: string
+    onLastSenderIdUpdate: (lastSenderId: string | null) => void
 }
 
 const StoryFragments: FC<StoryFragmentProps> = ({
     initialFragments,
-    sessionId
+    currentUserId,
+    storyId,
+    onLastSenderIdUpdate
 }) => {
     const [fragments, setFragments] = useState<StoryFragment[]>(initialFragments)
 
     const scrollDownRef = useRef<HTMLDivElement | null>(null)
-    
+
+    useEffect(() => {
+        pusherClient.subscribe(toPusherKey(
+            `stories:${storyId}:fragments`
+        ))
+
+        const fragmentRequestHandler = ({
+            id,
+            senderId,
+            text,
+            timestamp
+        }: StoryFragment) => {    
+            setFragments((prev) => [{
+                id,
+                senderId,
+                text,
+                timestamp
+            }, ...prev])
+            onLastSenderIdUpdate(senderId)
+        }
+
+        pusherClient.bind('incoming-fragment', fragmentRequestHandler)
+        
+        return () => {
+            pusherClient.unsubscribe(toPusherKey(
+                `stories:${storyId}:fragments`
+            ))
+            pusherClient.unbind('incoming-fragment', fragmentRequestHandler)
+        }
+    }, [storyId, onLastSenderIdUpdate])
+
     return (
         <div id='story-fragments' className="flex h-full flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
             <div ref={scrollDownRef}/>
 
             {fragments.map((fragment, index) => {
-                const isCurrentUser = fragment.senderId === sessionId
+                const isCurrentUser = fragment.senderId === currentUserId
                 
                 const hasNextMessageFromSameUser = 
                     fragments[index - 1]?.senderId === fragments[index].senderId

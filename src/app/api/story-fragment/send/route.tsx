@@ -4,6 +4,8 @@ import { db } from "@/lib/db"
 import { StoryFragment, fragmentSchema } from "@/lib/validations/fragment"
 import { getServerSession } from "next-auth"
 import { nanoid } from 'nanoid'
+import { pusherServer } from "@/lib/pusher"
+import { toPusherKey } from "@/lib/utils"
 
 export async function POST(req: Request) {
     try {
@@ -42,6 +44,17 @@ export async function POST(req: Request) {
         const fragment = fragmentSchema.parse(fragmentData)
 
         // All valid, send the story fragment
+        pusherServer.trigger(
+            toPusherKey(`stories:${storyId}:fragments`), 
+            'incoming-fragment',
+                {
+                    id: storyId,
+                    senderId: session.user.id,
+                    text: text,
+                    timestamp: timestamp
+                }
+            )
+        
         await db.zadd(`stories:${storyId}:fragments`, {
             score: timestamp,
             member: JSON.stringify(fragment)

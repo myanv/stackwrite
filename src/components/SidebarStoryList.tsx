@@ -20,8 +20,6 @@ const SidebarStoryList: FC<SidebarStoryListProps> = ({
             `user:${sessionId}:stories`
         ))
 
-        console.log("subscribed")
-
         const storyRequestHandler = ({
             id,
             title,
@@ -29,7 +27,6 @@ const SidebarStoryList: FC<SidebarStoryListProps> = ({
             author,
             collaborator
         }: Story) => {    
-            console.log("mounted")
             setStoryList((prev) => [...prev, {
                 id,
                 title,
