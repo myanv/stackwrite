@@ -44,7 +44,7 @@ export async function POST(req: Request) {
         const fragment = fragmentSchema.parse(fragmentData)
 
         // All valid, send the story fragment
-        pusherServer.trigger(
+        await pusherServer.trigger(
             toPusherKey(`stories:${storyId}:fragments`), 
             'incoming-fragment',
                 {

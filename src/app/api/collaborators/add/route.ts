@@ -59,7 +59,7 @@ export async function POST(req: Request) {
 
         // Valid request, send collab request
         
-        pusherServer.trigger(
+        await pusherServer.trigger(
             toPusherKey(`user:${idToAdd}:incoming_collab_requests`), 
             'incoming_collab_requests',
                 {

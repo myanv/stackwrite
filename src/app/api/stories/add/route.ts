@@ -57,7 +57,7 @@ export async function POST(req: Request) {
             const storyId = nanoid()
 
             // Valid request, trigger pusher event and post to database
-            pusherServer.trigger(
+            await pusherServer.trigger(
                 toPusherKey(`user:${session.user.id}:stories`), 
                 'stories',
                     {
@@ -69,7 +69,7 @@ export async function POST(req: Request) {
                     }
                 )
             
-            pusherServer.trigger(
+            await pusherServer.trigger(
                 toPusherKey(`user:${idToAdd}:stories`), 
                 'stories',
                     {
