@@ -52,7 +52,7 @@ const StoryFragments: FC<StoryFragmentProps> = ({
     }, [storyId, onLastSenderIdUpdate])
 
     return (
-        <div id='story-fragments' className="flex h-full flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+        <div id='story-fragments' className="map-bg flex h-full flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
             <div ref={scrollDownRef}/>
 
             {fragments.map((fragment, index) => {
@@ -68,11 +68,11 @@ const StoryFragments: FC<StoryFragmentProps> = ({
                             'justify-end': isCurrentUser,
                         })}>
                             <div className={cn('flex flex-col space-y-2 text-base max-w-full mx-2', {
-                                'order-1 items-end': isCurrentUser,
+                                'order-1 items-center': isCurrentUser,
                                 'order-2 items-start': !isCurrentUser
                             })}>
                                 <span className={cn('px-4 py-2 rounded-lg inline-block', {
-                                    'bg-indigo-600 text-white': isCurrentUser,
+                                    'bg-slate-800 text-white': isCurrentUser,
                                     'bg-gray-200 text-gray-900': !isCurrentUser,
                                     
                                 })}>

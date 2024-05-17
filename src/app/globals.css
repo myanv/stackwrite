@@ -74,3 +74,10 @@
       @apply bg-background text-foreground;
     }
   }
+
+  .map-bg {
+    background-image: url('../../public/map.jpg');
+    background-size: cover;
+    background-position: 0 50px;
+    background-attachment: fixed;
+  }

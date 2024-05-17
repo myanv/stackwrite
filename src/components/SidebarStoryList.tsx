@@ -57,9 +57,9 @@ const SidebarStoryList: FC<SidebarStoryListProps> = ({
                         story.collaborator
                         )}`}
                     >
-                        <div className="w-full hover:bg-slate-50 py-3">
-                            <span className="truncate text-md">{story.title}</span>
-                            <span className="truncate block text-[0.9rem] text-gray-600">{story.description}</span>
+                        <div className="w-full py-2 rounded-md">
+                            <span className="truncate text-md text-zinc-300">{story.title}</span>
+                            <span className="truncate block text-[0.9rem] text-zinc-400">{story.description}</span>
                             <Badge>In collaboration</Badge>
                         </div>
                     </a>

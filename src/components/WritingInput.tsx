@@ -33,7 +33,7 @@ const WritingInput: FC<WritingInputProps> = ({
 
         setIsLoading(true)
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000))
+            await new Promise((resolve) => setTimeout(resolve, 500))
             await axios.post('/api/story-fragment/send', {
                 text: input,
                 storyPath: storyPath,
@@ -51,8 +51,8 @@ const WritingInput: FC<WritingInputProps> = ({
     }
     
     return (
-        <div className="border-t border-gray-200 px-4 pt-4 mb-2 sm:sb-0">
-            <div className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2">
+        <div className="border-t w-full bg-slate-800 border-zinc-100 p-4">
+            <div className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-zinc-200 focus-within:ring-2">
                 <TextArea ref={textAreaRef} onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault()
@@ -63,7 +63,7 @@ const WritingInput: FC<WritingInputProps> = ({
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Start writing your story!"
-                className="block w-full resize-none bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0"
+                className="block w-full resize-none bg-transparent text-left text-zinc-50 placeholder:text-zinc-500 mx-3 py-2 focus:ring-0"
                 />
 
                 <div 
@@ -71,12 +71,12 @@ const WritingInput: FC<WritingInputProps> = ({
                     className="py-2"
                     aria-hidden="true">
                     <div className="py-px">
-                        <div className="h-9"></div>
+                        <div className="h-28"></div>
                     </div>
                 </div>
             </div>
 
-            <div className="absolute right-0 bottom-0 flex justify-between py-2 ol-3 pr-2">
+            <div className="absolute right-3 bottom-3 flex justify-between py-2 pl-3 pr-2">
                 <div className="flex-shrink-0">
                     <Button 
                         onClick={sendFragment} 
@@ -84,7 +84,7 @@ const WritingInput: FC<WritingInputProps> = ({
                         type="submit"
                         disabled={!isCurrentUserTurn}
                     >
-                            Post
+                            Send
                     </Button>
                 </div>
             </div>
