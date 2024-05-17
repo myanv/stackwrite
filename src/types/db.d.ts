@@ -11,7 +11,7 @@ interface Story {
     description: string
     author: string
     collaborator: string
-    fragments: StoryFragment[]
+    fragments?: StoryFragment[]
 }
 
 interface StoryFragment {

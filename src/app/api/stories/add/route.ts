@@ -1,6 +1,8 @@
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { pusherServer } from "@/lib/pusher";
+import { toPusherKey } from "@/lib/utils";
 import { nanoid } from "nanoid";
 import { getServerSession } from "next-auth"
 import { z } from "zod"
@@ -53,6 +55,31 @@ export async function POST(req: Request) {
 
             // Generate a random story ID with UUID
             const storyId = nanoid()
+
+            // Valid request, trigger pusher event and post to database
+            pusherServer.trigger(
+                toPusherKey(`user:${session.user.id}:stories`), 
+                'stories',
+                    {
+                        id: storyId,
+                        title: body.title,
+                        description: body.description,
+                        author: session.user.id,
+                        collaborator: idToAdd,
+                    }
+                )
+            
+            pusherServer.trigger(
+                toPusherKey(`user:${idToAdd}:stories`), 
+                'stories',
+                    {
+                        id: storyId,
+                        title: body.title,
+                        description: body.description,
+                        author: idToAdd,
+                        collaborator: session.user.id,
+                    }
+                )
 
             // Two way story connection
             db.hset(`user:${session.user.id}:stories:${storyId}`, {
