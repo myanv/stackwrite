@@ -1,18 +1,15 @@
-import { ClassValue } from "class-variance-authority/types";
-import { twMerge } from "tailwind-merge";
-import clsx from "clsx";
-
-// Utility function for class variance
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs))
 }
 
 export function storyHrefConstructor(storyId: string, id1: string, id2: string) {
-    const sortedIds = [id1, id2].sort()
-    return `${storyId}--${sortedIds[0]}--${sortedIds[1]}`
+  const sortedIds = [id1, id2].sort()
+  return `${storyId}--${sortedIds[0]}--${sortedIds[1]}`
 }
 
 export function toPusherKey(key: string) {
-    return key.replace(/:/g, '__')
+  return key.replace(/:/g, '__')
 }

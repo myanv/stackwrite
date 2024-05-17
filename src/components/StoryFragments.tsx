@@ -2,9 +2,7 @@
 
 import { pusherClient } from "@/lib/pusher"
 import { cn, toPusherKey } from "@/lib/utils"
-import { error } from "console"
 import { FC, useEffect, useRef, useState } from "react"
-import toast from "react-hot-toast"
 
 interface StoryFragmentProps {
     initialFragments: StoryFragment[]

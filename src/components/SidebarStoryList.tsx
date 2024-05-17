@@ -3,6 +3,7 @@
 import { pusherClient } from "@/lib/pusher"
 import { storyHrefConstructor, toPusherKey } from "@/lib/utils"
 import { FC, useEffect, useState } from "react"
+import { Badge } from "./ui/badge"
 
 interface SidebarStoryListProps {
     stories: Story[],
@@ -54,7 +55,14 @@ const SidebarStoryList: FC<SidebarStoryListProps> = ({
                         story.id, 
                         story.author,
                         story.collaborator
-                        )}`}>{story.title}</a>
+                        )}`}
+                    >
+                        <div className="w-full hover:bg-slate-50 py-3">
+                            <span className="truncate text-md">{story.title}</span>
+                            <span className="truncate block text-[0.9rem] text-gray-600">{story.description}</span>
+                            <Badge>In collaboration</Badge>
+                        </div>
+                    </a>
                 </li>)
         })}
     </ul>

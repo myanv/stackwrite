@@ -2,13 +2,18 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "StackWrite",
   description: "A real-time novel writing application",
 };
+
 
 export default function RootLayout({
   children,
@@ -17,7 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body 
+        className={cn(
+          inter.className, 
+          inter.variable
+        )}>
         <Providers>{children}</Providers>
       </body>
     </html>

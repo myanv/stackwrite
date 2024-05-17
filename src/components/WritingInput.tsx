@@ -41,7 +41,6 @@ const WritingInput: FC<WritingInputProps> = ({
 
             // Clears text area after sending
             setInput("")
-            textAreaRef.current?.focus()
             
 
         } catch (error) {
@@ -53,7 +52,7 @@ const WritingInput: FC<WritingInputProps> = ({
     
     return (
         <div className="border-t border-gray-200 px-4 pt-4 mb-2 sm:sb-0">
-            <div className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+            <div className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2">
                 <TextArea ref={textAreaRef} onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault()
@@ -64,7 +63,7 @@ const WritingInput: FC<WritingInputProps> = ({
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Start writing your story!"
-                className="block w-full resize-none border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0"
+                className="block w-full resize-none bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0"
                 />
 
                 <div 
