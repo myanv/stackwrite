@@ -81,38 +81,38 @@ const AddStoryButton: FC<AddStoryButton> = ({}) => {
 
     return (
             <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm">
-                <label htmlFor="text" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="text" className="block text-md font-medium leading-6 text-gray-900">
                     Add a new story
                 </label>
 
-                <div className="mt-2 flex gap-4">
+                <div className="mt-2 flex gap-4 mr-4">
                     <input 
                     {...register('title')}
                     onChange={(input) => { handleChange(input) }}
-                    type="text" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    type="text" className="block outline-none w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-zinc-400 sm:text-sm sm:leading-6"
                     placeholder="Your story"
                     />
                     
                 </div>
             
-            <div className="flex flex-col gap-3 mt-4">
+            <div className="flex flex-col gap-3 mt-4 mr-4">
                 { isTyping ? (
                     <>
-                        <label htmlFor="text" className="block text-sm font-medium leading-6 text-gray-900">
+                        <label htmlFor="text" className="block text-md font-medium leading-6 text-gray-900">
                             Add a description for your story
                         </label>
                         <input
                         {...register('description')}
-                        className="block w-full h-20 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block outline-none w-full pl-2 h-20 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-zinc-400 sm:text-sm sm:leading-6"
                         placeholder="Description"
                         />
-                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                        <label htmlFor="email" className="block text-md font-medium leading-6 text-gray-900">
                             Add an existing collaborator for your story
                         </label>
                         <input
                         {...register('collaborator')}
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder="Enter the email address of the collaborator"
+                        className="block outline-none w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-zinc-400 sm:text-sm sm:leading-6"
+                        placeholder="Enter an email address"
                         />
                         <Button>Add</Button>
                     </>

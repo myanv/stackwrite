@@ -62,13 +62,24 @@ const StoryFragments: FC<StoryFragmentProps> = ({
     return (
         <div id='story-fragments' className="map-bg flex h-full flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
             <div ref={scrollDownRef}/>
-            <div className="bg-slate-800 mt-10 rounded-md h-full overflow-hidden" >
+            <div className="bg-slate-800 mt-10 rounded-lg h-full overflow-y-scroll overflow-x-hidden" >
                 <div className="px-3 py-2" >
                     {
                         fragments.map((fragment) => {
-                            return (
-                                <span className="text-zinc-300" key={fragment.id}>{fragment.text + " "}</span>
-                            )
+                            {
+                                const isCurrentUser = fragment.senderId === currentUserId
+                                const isNewline = fragment.text.includes("\n")
+                                
+                                return (
+                                    <span key={fragment.id} className={cn('hover:bg-cyan-900 p-1 text-sm md:text-md', {
+                                        'text-cyan-200': isCurrentUser,
+                                        'text-zinc-200': !isCurrentUser,
+                                        'block': isNewline,
+                                    })}>
+                                        {fragment.text.trim()}
+                                    </span>
+                                )
+                            }
                         }).reverse()
                     }
                 </div>
