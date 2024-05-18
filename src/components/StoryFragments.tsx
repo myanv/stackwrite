@@ -2,6 +2,7 @@
 
 import { pusherClient } from "@/lib/pusher"
 import { cn, toPusherKey } from "@/lib/utils"
+import { reverse } from "dns"
 import { FC, useEffect, useRef, useState } from "react"
 
 interface StoryFragmentProps {
@@ -18,6 +19,11 @@ const StoryFragments: FC<StoryFragmentProps> = ({
     onLastSenderIdUpdate
 }) => {
     const [fragments, setFragments] = useState<StoryFragment[]>(initialFragments)
+    const [storyText, setStoryText] = useState<string>(
+        initialFragments.map((fragment) => fragment.text).reverse().join(" ")
+    )
+
+    console.log("Story text: " + storyText)
 
     const scrollDownRef = useRef<HTMLDivElement | null>(null)
 
@@ -39,6 +45,7 @@ const StoryFragments: FC<StoryFragmentProps> = ({
                 timestamp
             }, ...prev])
             onLastSenderIdUpdate(senderId)
+            setStoryText((prev) => prev + " " + text)
         }
 
         pusherClient.bind('incoming-fragment', fragmentRequestHandler)
@@ -51,41 +58,21 @@ const StoryFragments: FC<StoryFragmentProps> = ({
         }
     }, [storyId, onLastSenderIdUpdate])
 
+
     return (
         <div id='story-fragments' className="map-bg flex h-full flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
             <div ref={scrollDownRef}/>
-
-            {fragments.map((fragment, index) => {
-                const isCurrentUser = fragment.senderId === currentUserId
-                
-                const hasNextMessageFromSameUser = 
-                    fragments[index - 1]?.senderId === fragments[index].senderId
-                
-                
-                return (
-                    <div className="story-fragment" key={fragment.id}>
-                        <div className={cn('flex items-end', {
-                            'justify-end': isCurrentUser,
-                        })}>
-                            <div className={cn('flex flex-col space-y-2 text-base max-w-full mx-2', {
-                                'order-1 items-center': isCurrentUser,
-                                'order-2 items-start': !isCurrentUser
-                            })}>
-                                <span className={cn('px-4 py-2 rounded-lg inline-block', {
-                                    'bg-slate-800 text-white': isCurrentUser,
-                                    'bg-gray-200 text-gray-900': !isCurrentUser,
-                                    
-                                })}>
-                                    {fragment.text}
-                                </span>
-                            </div>
-
-                            
-                        </div>
-                        
-                    </div>
-                )
-            })}
+            <div className="bg-slate-800 mt-10 rounded-md h-full overflow-hidden" >
+                <div className="px-3 py-2">
+                    {
+                        fragments.map((fragment) => {
+                            return (
+                                <span className="text-zinc-300">{fragment.text + " "}</span>
+                            )
+                        }).reverse()
+                    }
+                </div>
+            </div>
         </div>
     )
 }

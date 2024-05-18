@@ -63,10 +63,11 @@ const Layout = async ({ children }: LayoutProps) => {
     
     return (
         <div className='map-bg w-full flex h-screen'>
-            <div className='md:hidden absolute w-screen bg-slate-800 pl-4 sm:items-center justify-between py-3 border-b-2 border-gray-200'>
+            <div className='md:hidden absolute w-screen bg-gradient-to-br from-slate-800 to-transparent pl-4 sm:items-center justify-between py-2 border-b-1 border-gray-200'>
                 <Sheet>
-                    <SheetTrigger>
-                        <Icons.Logo></Icons.Logo>
+                    <SheetTrigger className='flex'>
+                        <Icons.Logo />
+                        <Icons.ChevronRight color="#e0e0e0" />
                     </SheetTrigger>
                     <SheetContent>
                         {stories.length > 0 ? (

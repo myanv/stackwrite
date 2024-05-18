@@ -51,19 +51,14 @@ const WritingInput: FC<WritingInputProps> = ({
     }
     
     return (
-        <div className="border-t w-full bg-slate-800 border-zinc-100 p-4">
-            <div className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-zinc-200 focus-within:ring-2">
-                <TextArea ref={textAreaRef} onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault()
-                        sendFragment()
-                    }
-                }}
+        <div className="border-t w-full bg-slate-800 border-zinc-100 p-3">
+            <div className="relative flex-1 h-36 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-zinc-200 focus-within:ring-2">
+                <TextArea ref={textAreaRef} 
                 rows={1}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Start writing your story!"
-                className="block w-full resize-none bg-transparent text-left text-zinc-50 placeholder:text-zinc-500 mx-3 py-2 focus:ring-0"
+                className="block w-full resize-none bg-transparent text-left text-zinc-50 placeholder:text-zinc-500 px-3 py-2 outline-none"
                 />
 
                 <div 
@@ -71,7 +66,7 @@ const WritingInput: FC<WritingInputProps> = ({
                     className="py-2"
                     aria-hidden="true">
                     <div className="py-px">
-                        <div className="h-28"></div>
+                        <div className="h-8"></div>
                     </div>
                 </div>
             </div>
