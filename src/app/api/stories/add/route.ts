@@ -11,21 +11,12 @@ export async function POST(req: Request) {
     try {
         const body = await req.json()
 
-        // Get the title and the description - no need for validation since will be any string
-        const {title: titleToAdd} = body.title
-        const {description: descriptionToAdd} = body.description
-        const {collaborator: collaboratorToAdd} = body.collaborator
-
-        console.log(`user:email:${collaboratorToAdd}`)
-        
         // Gets the collaborator's ID
-        const idToAdd = await fetchRedis('get', `user:email:${collaboratorToAdd}`) as string
-
-        console.log(idToAdd)
+        console.log("collaborator: " + body.collaborator)
 
         // Fetch data from the Upstash Redis DB, using REST token authorization in headers
         // If the ID to add doesn't exist
-        if (!idToAdd) {
+        if (!body.collaborator) {
             return new Response(`This person does not exist.`, {status: 400})
         }
 
@@ -38,7 +29,7 @@ export async function POST(req: Request) {
         }
 
         // If the user is requesting themselves
-        if (idToAdd === session.user.id) {
+        if (body.collaborator === session.user.id) {
             return new Response('You cannot collaborate with yourself!', {
                 status: 400,
             })
@@ -48,7 +39,7 @@ export async function POST(req: Request) {
         const isCollaborator = (await fetchRedis(
             'sismember', 
             `user:${session.user.id}:collabs`,
-            idToAdd
+            body.collaborator
         )) as 0 | 1
 
         if (isCollaborator) {
@@ -65,18 +56,18 @@ export async function POST(req: Request) {
                         title: body.title,
                         description: body.description,
                         author: session.user.id,
-                        collaborator: idToAdd,
+                        collaborator: body.collaborator,
                     }
                 )
             
             await pusherServer.trigger(
-                toPusherKey(`user:${idToAdd}:stories`), 
+                toPusherKey(`user:${body.collaborator}:stories`), 
                 'stories',
                     {
                         id: storyId,
                         title: body.title,
                         description: body.description,
-                        author: idToAdd,
+                        author: body.collaborator,
                         collaborator: session.user.id,
                     }
                 )
@@ -87,14 +78,14 @@ export async function POST(req: Request) {
                 title: body.title,
                 description: body.description,
                 author: session.user.id,
-                collaborator: idToAdd,
+                collaborator: body.collaborator,
                 fragments: [],
             })
-            db.hset(`user:${idToAdd}:stories:${storyId}`, {
+            db.hset(`user:${body.collaborator}:stories:${storyId}`, {
                 id: storyId,
                 title: body.title,
                 description: body.description,
-                author: idToAdd,
+                author: body.collaborator,
                 collaborator: session.user.id,
                 fragments: [],
             })

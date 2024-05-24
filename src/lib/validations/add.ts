@@ -8,6 +8,5 @@ export const addCollaboratorValidator = z.object({
 
 export const addStoryValidator = z.object({
     title: z.string(),
-    description: z.string(),
-    collaborator: z.string().email(),
+    description: z.string()
 })

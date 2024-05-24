@@ -7,14 +7,31 @@ import axios, { AxiosError } from "axios";
 import z from 'zod';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+  } from "@/components/ui/drawer"
+import { Icons } from "@/components/Icons";
 
-interface AddStoryButton {}
+interface AddStoryButton {
+    collaborators: CollaboratorInList[]
+}
 
 type FormData = z.infer<typeof addStoryValidator>
 
-const AddStoryButton: FC<AddStoryButton> = ({}) => {
+const AddStoryButton: FC<AddStoryButton> = ({
+    collaborators
+}) => {
     const [showSuccessState, setShowSuccessState] = useState<boolean>(false)
     const [isTyping, setIsTyping] = useState<boolean>(false)
+    const [selectedCollaboratorName, setSelectedCollaboratorName] = useState<string>("Add an existing collaborator!")
+    const [selectedCollaboratorId, setSelectedCollaboratorId] = useState<string>("")
 
     const { 
         register, 
@@ -31,16 +48,12 @@ const AddStoryButton: FC<AddStoryButton> = ({}) => {
         collaborator: string
     ) => {
         try {
-            const validatedCollaborator = addStoryValidator.parse({ 
-                title,
-                description,
-                collaborator });
             // Using Axios to send a POST request containing the validated email
 
             await axios.post('/api/stories/add', {
                 title: title,
                 description: description,
-                collaborator: validatedCollaborator
+                collaborator: collaborator
             })
 
             setShowSuccessState(true)
@@ -66,7 +79,7 @@ const AddStoryButton: FC<AddStoryButton> = ({}) => {
         addStory(
             data.title,
             data.description,
-            data.collaborator,
+            selectedCollaboratorId
         )
     }
 
@@ -76,7 +89,11 @@ const AddStoryButton: FC<AddStoryButton> = ({}) => {
         } else {
             setIsTyping(false)
         }
-        
+    }
+
+    const handleClick = (id: string, collaboratorName: string) => {
+        setSelectedCollaboratorName(collaboratorName)
+        setSelectedCollaboratorId(id)
     }
 
     return (
@@ -106,21 +123,58 @@ const AddStoryButton: FC<AddStoryButton> = ({}) => {
                         className="block outline-none w-full pl-2 h-20 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-zinc-400 sm:text-sm sm:leading-6"
                         placeholder="Description"
                         />
-                        <label htmlFor="email" className="block text-md font-medium leading-6 text-gray-900">
-                            Add an existing collaborator for your story
-                        </label>
-                        <input
-                        {...register('collaborator')}
-                        className="block outline-none w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-zinc-400 sm:text-sm sm:leading-6"
-                        placeholder="Enter an email address"
-                        />
+
+                
+                        <Drawer>
+                            <DrawerTrigger asChild>
+                                <Button variant='default'>
+                                    {selectedCollaboratorName === "Add an existing collaborator!" ? (
+                                        <span>{selectedCollaboratorName}</span>
+                                    ) : (
+                                        <span>Selected collaborator: {selectedCollaboratorName}</span>
+                                    )}
+                                
+                                </Button>
+                            </DrawerTrigger>
+                            <DrawerContent>
+                                <div className="mx-auto w-full max-w-sm">
+                                    <DrawerHeader>
+                                        <DrawerTitle>Your collaborators</DrawerTitle>
+                                        <DrawerDescription>Select your collaborators!</DrawerDescription>
+                                    </DrawerHeader>
+                                    <div className="p-4 pb-0">
+                                        <div className="flex flex-col items-center justify-center">
+                                            <ul className="mb-10">
+                                                {collaborators.map((collab) => {
+                                                    return (
+                                                        <Button 
+                                                            key={collab.id}
+                                                            variant='ghost' 
+                                                            className="w-full flex space-x-5 px-28"
+                                                            onClick={() => handleClick(collab.id, collab.collaboratorName)}
+                                                        >
+                                                            <li>
+                                                                {collab.collaboratorName}
+                                                            </li>
+                                                            <Icons.NotebookPen />
+                                                        </Button>
+                                                    )
+                                                })}
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </DrawerContent>
+                        </Drawer>
+
                         <Button>Add</Button>
                     </>
                 ) : null}
             </div>
             <p className="mt-1 text-sm text-red-600">{errors.title?.message}</p>
             { showSuccessState ? (
-                    <p className="mt-1 text-sm text-green-600">New story created!</p>
+                    <p className="mt-1 text-sm text-zinc-200">New story created!</p>
                 ) : null 
             }
         </form>
