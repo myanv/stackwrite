@@ -2,7 +2,6 @@
 
 import { pusherClient } from "@/lib/pusher"
 import { cn, toPusherKey } from "@/lib/utils"
-import { reverse } from "dns"
 import { FC, useEffect, useRef, useState } from "react"
 
 interface StoryFragmentProps {
@@ -63,7 +62,22 @@ const StoryFragments: FC<StoryFragmentProps> = ({
         <div id='story-fragments' className="map-bg flex h-full flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
             <div ref={scrollDownRef}/>
             <div className="bg-slate-800 mt-10 rounded-lg h-full overflow-y-scroll overflow-x-hidden" >
-                <div className="px-3 py-2" >
+                {/* FREEFORM MODE (TBI)
+                
+                <ContentEditable
+                    html={storyText}
+                    onChange={handleTextChange}
+                    tagName="div"
+                    className="px-3 py-2 outline-none text-zinc-50"
+                >
+                    
+                </ContentEditable>
+
+                */}
+
+                {/* CONSTRUCT MODE */}
+                
+                <div className="px-3 py-2">
                     {
                         fragments.map((fragment) => {
                             {

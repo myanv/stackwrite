@@ -27,7 +27,7 @@ const CollaboratorList: FC<CollaboratorProps> = ({
                         <Icons.PencilRuler />
                         {collaborators.map((collab) => {
                             return (
-                                <li className="ml-4">{collab.collaboratorName}</li>
+                                <li className="ml-4" key={collab.id}>{collab.collaboratorName}</li>
                             )
                         })}
                     </ul>

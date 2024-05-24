@@ -1,6 +1,6 @@
 import { fetchRedis } from "@/helpers/redis"
 import { authOptions } from "@/lib/auth"
-import { addNovelistValidator } from "@/lib/validations/add"
+import { addCollaboratorValidator } from "@/lib/validations/add"
 import { getServerSession } from "next-auth"
 import { db } from "@/lib/db"
 import {ZodError, z} from 'zod'
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     try {
         const body = await req.json()
 
-        const {email: emailToAdd} = addNovelistValidator.parse(body.email)
+        const {email: emailToAdd} = addCollaboratorValidator.parse(body.email)
 
         const idToAdd = await fetchRedis('get', `user:email:${emailToAdd}`) as string
 

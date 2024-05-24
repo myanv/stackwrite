@@ -1,4 +1,3 @@
-import { describe } from 'node:test'
 import { z } from 'zod'
 
 // Validates email response using Zod's built-in email validator function
