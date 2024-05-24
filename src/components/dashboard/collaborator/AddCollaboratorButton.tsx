@@ -1,19 +1,19 @@
 "use client"
 
 import { FC, useState } from "react";
-import Button from "./ui/Button";
-import { addNovelistValidator } from "@/lib/validations/add";
+import { addCollaboratorValidator } from "@/lib/validations/add";
+import Button from "@/components/ui/Button";
 import axios, { AxiosError } from "axios";
 import z from 'zod';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { error } from "console";
 
-interface AddNovelistButton {}
+interface AddCollaboratorButton {}
 
-type FormData = z.infer<typeof addNovelistValidator>
 
-const AddNovelistButton: FC<AddNovelistButton> = ({}) => {
+type FormData = z.infer<typeof addCollaboratorValidator>
+
+const AddCollaboratorButton: FC<AddCollaboratorButton> = ({}) => {
     const [showSuccessState, setShowSuccessState] = useState<boolean>(false)
     
     const { 
@@ -22,13 +22,13 @@ const AddNovelistButton: FC<AddNovelistButton> = ({}) => {
         setError, 
         formState: {errors} 
     } = useForm<FormData>({
-        resolver: zodResolver(addNovelistValidator)
+        resolver: zodResolver(addCollaboratorValidator)
     })
 
 
-    const addNovelist = async (email: string) => {
+    const addCollaborator = async (email: string) => {
         try {
-            const validatedEmail = addNovelistValidator.parse({ email })
+            const validatedEmail = addCollaboratorValidator.parse({ email })
 
             // Using Axios to send a POST request containing the validated email
             await axios.post('/api/collaborators/add', {
@@ -54,12 +54,12 @@ const AddNovelistButton: FC<AddNovelistButton> = ({}) => {
 
     // On submit, receives an object of type FormData containing strictly an email
     const onSubmit = (data: FormData) => {
-        addNovelist(data.email)
+        addCollaborator(data.email)
     }
 
     return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm">
         <label htmlFor="email" className="block text-md font-medium leading-6 text-gray-900">
-            Add a novelist by E-mail
+            Add a collaborator by E-mail
         </label>
 
         <div className="mt-2 flex gap-4">
@@ -78,4 +78,4 @@ const AddNovelistButton: FC<AddNovelistButton> = ({}) => {
     </form>
 }
 
-export default AddNovelistButton
+export default AddCollaboratorButton

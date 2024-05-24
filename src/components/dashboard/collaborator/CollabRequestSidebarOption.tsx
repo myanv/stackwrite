@@ -43,7 +43,7 @@ const CollabRequestSidebarOption: FC<CollabRequestSidebarOptionProps> = ({
     return (
         <Link href='/dashboard/requests' className="text-gray-300 hover:text-zinc-200 hover:bg-slate-900 group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
             <div className="text-gray-300 group-hover:text-zinc-200 h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.625rem] font-medium">
-                <User className="h-4 w-4" />
+                <User className="pl-1 h-5 w-5" />
             </div>
             <p className="truncate">Collab requests</p>
 

@@ -4,8 +4,7 @@ import { notFound } from "next/navigation"
 import { fetchRedis } from "@/helpers/redis"
 import { db } from "@/lib/db"
 import { fragmentArraySchema } from "@/lib/validations/fragment"
-import Image from "next/image"
-import StoryContainer from "@/components/StoryContainer"
+import StoryContainer from "@/components/dashboard/stories/StoryContainer"
 
 interface StoryProps {
     params: {

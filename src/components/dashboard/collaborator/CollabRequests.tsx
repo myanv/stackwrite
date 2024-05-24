@@ -74,11 +74,11 @@ const CollabRequests: FC<CollabRequestsProps> = ({
 
     return <>
         {collabRequests.length === 0 ? (
-            <p className="text-sm text-zinc-500">You have no incoming collab requests...</p>
+            <p className="text-md text-zinc-900 ml-4">You have no incoming collab requests...</p>
         ) : (
             collabRequests.map((request) => (
                 <div key={request.senderId} className="flex gap-4 items-center">
-                    <UserPlus className="text-black" />
+                    <UserPlus className="text-white" />
                     <p className="font-medium text-lg">{request.senderName}</p>
                     <p className="font-medium text-sm ml-10">{request.senderEmail}</p>
                     <button onClick={() => acceptCollab(request.senderId)} aria-label="Accept collaborator" className="w-8 h-8 bg-indigo-600 hover:bg-indigo-700 grid place-items-center rounded-full transition hover:shadow-md">

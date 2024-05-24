@@ -2,7 +2,7 @@
 
 import { FC, useRef, useState } from "react"
 import TextArea from 'react-textarea-autosize'
-import Button from "./ui/Button"
+import Button from "../../ui/Button"
 import axios from "axios"
 import toast from "react-hot-toast"
 

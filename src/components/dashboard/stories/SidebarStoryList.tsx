@@ -3,7 +3,7 @@
 import { pusherClient } from "@/lib/pusher"
 import { storyHrefConstructor, toPusherKey } from "@/lib/utils"
 import { FC, useEffect, useState } from "react"
-import { Badge } from "./ui/badge"
+import { Badge } from "@/components/ui/badge"
 
 interface SidebarStoryListProps {
     stories: Story[],

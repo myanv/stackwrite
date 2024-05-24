@@ -1,5 +1,5 @@
-import AddStoryButton from "@/components/AddStoryButton";
 import { FC } from "react";
+import AddStoryButton from "@/components/dashboard/stories/AddStoryButton";
 
 const page: FC = () => {
     return (

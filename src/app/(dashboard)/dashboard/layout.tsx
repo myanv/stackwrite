@@ -2,21 +2,18 @@ import { authOptions } from '@/lib/auth'
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { notFound } from 'next/navigation'
-import { FC, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Icon, Icons } from '@/components/Icons'
 import Image from 'next/image'
 import SignOutButton from '@/components/SignOutButton'
-import CollabRequestSidebarOption from '@/components/CollabRequestSidebarOption'
+import CollabRequestSidebarOption from '@/components/dashboard/collaborator/CollabRequestSidebarOption'
 import { fetchRedis } from '@/helpers/redis'
 import { getStoriesByUserId } from '@/helpers/get-stories-by-user-id'
-import SidebarStoryList from '@/components/SidebarStoryList'
+import SidebarStoryList from '@/components/dashboard/stories/SidebarStoryList'
 
 import {
     Sheet,
     SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
     SheetTrigger,
   } from "@/components/ui/sheet"
 
@@ -44,6 +41,12 @@ const sidebarOptions: SidebarOption[] = [
         href: '/dashboard/add/story',
         Icon: 'NotebookPen'
     },
+    {
+        id: 3,
+        name: 'View your collaborator list',
+        href: '/dashboard/collaborators',
+        Icon: 'User'
+    }
 ]
 
 const Layout = async ({ children }: LayoutProps) => {
