@@ -1,18 +1,21 @@
-This is a [Next.js](https://nextjs.org/) pair story-writing project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). The styling is done with TailwindCSS, and all data are stored in Redis via Upstash.
+# StackWrite - a [Next.js](https://nextjs.org/) 14 pair story-writing project
+### Overview
+StackWrite aims to turn the process of recreational writing into a simple, two-person game - each person can only contribute a limited amount of words to a story in a turn, afterwhich they have to wait for the other author to finish writing their section. The overarching story is then updated in real-time and is available for viewing by both parties!
 
 Some of the libraries used at first glance:
+* [NextAuth.js](https://next-auth.js.org/) - for seamlessly implementing user authentication and signing in with Google
+* [Zod](https://zod.dev/) - for response validation
+* [Lucide](https://lucide.dev/) - for high-quality icons
+* [Shadcn](https://ui.shadcn.com/) - for some styling components
+   
+...and various others. The styling was done with [Tailwind CSS](https://tailwindcss.com/) and the database being used here is [Redis](https://redis.io/).
 
-* NextAuth.js - for seamlessly implementing user authentication and signing in with Google
+## Web preview
+![image](https://github.com/user-attachments/assets/af7a8ac4-5d3f-4226-9af1-0eb129795ee9)
 
-* Zod - for response validation
+## Mobile preview
+![image](https://github.com/user-attachments/assets/bf305dfe-7e23-493f-b798-34939c2cd40b)
 
-* Lucide - for high-quality icons
-
-* Shadcn - for some styling components
-
-* react-hot-toast - for client-side error displaying
-
-* ...and various other libraries and middleware such as class-variance-authority and @upstash/redis.
 
 ## Getting Started
 
